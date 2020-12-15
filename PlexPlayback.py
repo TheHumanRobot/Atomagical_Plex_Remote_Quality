@@ -32,14 +32,14 @@ from configparser import *
 with open('config.yml', 'r') as file:
     doc = yaml.load(file, Loader=yaml.SafeLoader)
     x = bool(1)
-    #not sure what this does I thought it would max out available bandwidth needs more testing disabling for now
+    #not sure what this does exactly but further reports say this might be allowing direct and auto playback so I'm turning it back on
     y = bool(0)
     session = requests.Session()
     session.verify = False
     requests.packages.urllib3.disable_warnings()
     plex = PlexServer(doc["Plex"]["url"], doc["Plex"]["token"], session, timeout=None)
     plex.settings.get('forceAutoAdjustQuality').set(x)
-    #plex.settings.get('allowHighOutputBitrates').set(y)
+    plex.settings.get('allowHighOutputBitrates').set(y)
     print(plex.settings.get('forceAutoAdjustQuality').value)
-    #print(plex.settings.get('allowHighOutputBitrates').value)
+    print(plex.settings.get('allowHighOutputBitrates').value)
 plex.settings.save()
